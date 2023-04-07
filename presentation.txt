@@ -1,0 +1,96 @@
+Números: 6 40 3 2 1 4 5 
+
+idx:		Empezando desde 1, se asigna a cada numero en orden ascendente
+pos:		Posicion del numero en el stack, con indice 0
+target_pos: Posicion en la que deberia de estar al pasar del stack B al stack A
+cost_a:		La cantidad de movimientos que necesito realizar en el stack A para que el numero del stack B esté en la posicion correcta
+cost_b:		La cantidad de movimientos que necesito hacer en el stack B para poder pasarlo al stack A
+
+
+Primero se asigna el idx a cada número ej:
+num 	idx
+-----------
+6		6
+40 		7
+3 		3
+2 		2
+1 		1
+4		4
+5		5
+
+
+Empujo los numeros a B, siempre que sean menor a la mitad de la cantidad de numeros que hay +1 y que haya mas de 3
+En caso de que no cumpla lo anterior, se empujan a la parte inferior del stack, para ello me baso en idx
+
+
+
+A       B 													A       B
+--------- 													---------
+6    <--- no cumple, se empuja abajo del stack A (ra)		40    <--- no cumple, se empuja abajo del stack A (ra)
+40 															3
+3 															2
+2 															1
+1 															4
+4 															5
+5 															6
+
+
+A       B 													A       B
+--------- 													---------
+3    <--- si cumple, se empuja al stack B (pb)				2		3 <-- el numero 2 del stack A cumple, se empuja al stack B (pb)
+2 															1
+1 															4
+4 															5
+5 															6
+6 															40
+40 															
+
+....
+
+se realiza lo anterior hasta que la condicion anterior deje de cumplirse:
+
+A       B
+---------
+4		1
+5		2
+6		3
+40
+
+despues empujamos todos a excepcion de los 3 mas grandes sin importar el orden
+
+El stack final A solo va a tener los 3 mas grandes, el stack B tiene todos los que hemos ido pasando
+Una vez pasan todos, ordenamos los 3 del stack A. El stack tras esto se veria asi:
+
+A       B
+---------
+5		4
+6		1
+40		2
+		3
+
+
+Todo lo siguiente se ejecuta en bucle por cada numero del stack B, calculando todo de nuevo tras cada movimiento hasta que el stack B esté vacio.
+
+Ahora para calcular el coste de movimientos de cada uno de los numeros, para pasar el mas "barato", se asigna la posicion de cada uno de los numeros
+tanto del stack a como del b, estos numeros son simplemente recorrer cada stack e indicar la posicion de cada uno
+
+
+Ahora se calcula el target_pos:
+Se recorre cada numero del stack B, se obtiene el numero mas grande del stack A en base a su idx (closer), teniendo el numero mas grande, se recorre cada uno de los elementos del stack A, y se hace la siguiente comprobacion:
+el idx del numero actual del stack B, tiene que ser menor que el idx del numero actual de A y el numero mas grande, tiene que ser mayor que el idx del stack A, al hacer esto en cada uno de los elementos se va "acercando" al numero mas proximo del stack B, siempre por encima:
+
+idx de 4 es menor que idx de 5 Y closer (40) es mayor que idx de 5
+closer = 5, target_pos = pos de 5 (1)
+
+idx de 4 es menor que idx de 6 PERO closer (5) NO es mayor que idx de 6
+
+al comprobar todo se ve que la posicion correcta de 4, es la primera posicion;
+
+Despues de esto todos los numeros tienen asignada en que posicion final deberian quedar, ahora se pueden asignar los costes de movimiento de cada numero:
+el coste de movimientos para poder pasar el numero de B hacia A, simplemente se calcula con su posicion, si está desde el inicio hasta el medio, por optimizacion de movimientos.
+
+el coste de rotaciones del stack A, es lo mismo en base al target_pos, igualmente lo divido en 2 secciones para oprimizar movimientos
+
+por ultimo, teniendo el stack B con todo calculado, se mueve el mas "barato", para ello sumo cada cost_a y cost_b, el que la suma sea menor, es el que ejecuto los movimientos, como los movimientos pueden ser negativos (para saber que tengo que hacer movimientos reverse, saco el absoluto para calcularlo)
+
+por ultimo ejecuto el movimiento, para eso me baso en cost_a y cost_b para saber cuantas rotaciones tengo que hacer, una vez realizadas empujo el numero del stack B al A, y se repite todo el cuento hasta terminar
