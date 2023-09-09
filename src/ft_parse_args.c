@@ -6,7 +6,7 @@
 /*   By: imurugar <imurugar@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 15:48:18 by imurugar          #+#    #+#             */
-/*   Updated: 2023/04/04 20:44:50 by imurugar         ###   ########.fr       */
+/*   Updated: 2023/03/13 20:34:33 by imurugar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ t_stack	*process(int argc, char **argv, int *size)
 	int		i;
 	int		j;
 	char	**tmp;
-	t_stack	*tmp;
 
 	i = 1;
 	a = NULL;
@@ -92,8 +91,7 @@ t_stack	*process(int argc, char **argv, int *size)
 		tmp = ft_split(argv[i], ' ');
 		while (tmp[j])
 		{
-			tmp = stack_new(ft_atoi2(tmp[j]));
-			add_back(&a, tmp);
+			add_back(&a, stack_new(ft_atoi2(tmp[j])));
 			j++;
 			*size += 1;
 		}
