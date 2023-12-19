@@ -6,7 +6,7 @@
 /*   By: imurugar <imurugar@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 15:48:18 by imurugar          #+#    #+#             */
-/*   Updated: 2023/03/13 20:34:33 by imurugar         ###   ########.fr       */
+/*   Updated: 2023/12/19 16:31:20 by imurugar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,16 +83,17 @@ t_stack	*process(int argc, char **argv, int *size)
 
 	i = 1;
 	a = NULL;
-	if (argc < 2)
-		print_error();
 	while (argc > i)
 	{
+		if (argv[i][0] == ' ' || argv[i][0] == '\0')
+			return (freestack(&a), print_error(), NULL);
 		j = 0;
 		tmp = ft_split(argv[i], ' ');
+		if (!tmp)
+			return (freestack(&a), print_error(), NULL);
 		while (tmp[j])
 		{
-			add_back(&a, stack_new(ft_atoi2(tmp[j])));
-			j++;
+			add_back(&a, stack_new(ft_atoi2(tmp[j++])));
 			*size += 1;
 		}
 		freestr(tmp);

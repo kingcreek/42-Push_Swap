@@ -6,7 +6,7 @@
 #    By: imurugar <imurugar@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/14 17:33:33 by imurugar          #+#    #+#              #
-#    Updated: 2022/09/19 13:46:37 by imurugar         ###   ########.fr        #
+#    Updated: 2023/12/19 16:20:57 by imurugar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ RM			= rm -f
 LIB			= ar -rcs
 
 CC			= gcc
-FLAGS		= -Wall -Werror -Wextra
+FLAGS		= -Wall -Werror -Wextra -g
 
 .c.o:
 			${CC} ${FLAGS} -c $< -o ${<:.c=.o}
