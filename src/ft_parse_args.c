@@ -85,7 +85,7 @@ t_stack	*process(int argc, char **argv, int *size)
 	a = NULL;
 	while (argc > i)
 	{
-		if (argv[i][0] == ' ' || argv[i][0] == '\0')
+		if (argv[i][0] == '\0')
 			return (freestack(&a), print_error(), NULL);
 		j = 0;
 		tmp = ft_split(argv[i], ' ');
